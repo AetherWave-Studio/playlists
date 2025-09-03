@@ -4,6 +4,98 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>AetherWave — Global Playlist Player</title>
+
+https://script.google.com/macros/s/AKfycbxl6u-AbQ5GXcmVv_k34GNvucEx42yR-GdylKf0sFM1y-LWzdIPYkOFCMMAB08cpzyD/exec?route=playlist&callback=awp
+
+// Replace with your Apps Script exec base URL (no params needed)
+const APPS_EXEC_URL = 'https://script.google.com/macros/s/// Replace with your Apps Script exec base URL (no params needed)
+const APPS_EXEC_URL = 'https://script.google.com/macros/s/AKfycbxl6u-AbQ5GXcmVv_k34GNvucEx42yR-GdylKf0sFM1y-LWzdIPYkOFCMMAB08cpzyD/exec';
+
+function loadPlaylistJSONP(execUrl, onSuccess, onError, timeoutMs = 10000) {
+  const cbName = 'awp_cb_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+
+  // Create global callback
+  window[cbName] = function (data) {
+    cleanup();
+    try { onSuccess && onSuccess(data); } catch (e) { console.error(e); }
+  };
+
+  // Script element
+  const s = document.createElement('script');
+  const sep = execUrl.includes('?') ? '&' : '?';
+  s.src = execUrl + sep + 'route=playlist&callback=' + cbName;
+  s.async = true;
+
+  s.onerror = function () {
+    cleanup();
+    onError && onError(new Error('JSONP load error'));
+  };
+
+  // Timeout fallback
+  const timer = setTimeout(function () {
+    cleanup();
+    onError && onError(new Error('JSONP timeout'));
+  }, timeoutMs);
+
+  function cleanup() {
+    clearTimeout(timer);
+    s.remove();
+    try { delete window[cbName]; } catch (e) { window[cbName] = undefined; }
+  }
+
+  document.head.appendChild(s);
+}
+
+// Example usage
+loadPlaylistJSONP(
+  APPS_EXEC_URL,
+  data => { console.log('Playlist loaded', data); /* render playlist */ },
+  err  => { console.error('Failed to load playlist', err); }
+);/exec';
+
+function loadPlaylistJSONP(execUrl, onSuccess, onError, timeoutMs = 10000) {
+  const cbName = 'awp_cb_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+
+  // Create global callback
+  window[cbName] = function (data) {
+    cleanup();
+    try { onSuccess && onSuccess(data); } catch (e) { console.error(e); }
+  };
+
+  // Script element
+  const s = document.createElement('script');
+  const sep = execUrl.includes('?') ? '&' : '?';
+  s.src = execUrl + sep + 'route=playlist&callback=' + cbName;
+  s.async = true;
+
+  s.onerror = function () {
+    cleanup();
+    onError && onError(new Error('JSONP load error'));
+  };
+
+  // Timeout fallback
+  const timer = setTimeout(function () {
+    cleanup();
+    onError && onError(new Error('JSONP timeout'));
+  }, timeoutMs);
+
+  function cleanup() {
+    clearTimeout(timer);
+    s.remove();
+    try { delete window[cbName]; } catch (e) { window[cbName] = undefined; }
+  }
+
+  document.head.appendChild(s);
+}
+
+// Example usage
+loadPlaylistJSONP(
+  APPS_EXEC_URL,
+  data => { console.log('Playlist loaded', data); /* render playlist */ },
+  err  => { console.error('Failed to load playlist', err); }
+);
+
+ 
 <style>
   :root{--bg:#0b0b12;--ink:#eef1ff;--muted:#bfc1d3;--accent:#ff2fa6;--accent2:#35d0ff;--panel:#141428;--br:16px}
   *{box-sizing:border-box}
