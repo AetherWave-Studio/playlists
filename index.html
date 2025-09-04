@@ -13,7 +13,38 @@
   header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px}
   h1{margin:0;font-size:18px}
   .wrap{max-width:920px;margin:0 auto;padding:0 12px 28px}
-  .player{display:grid;grid-template-columns:320px 1fr;gap:16px}
+  //.player{display:grid;grid-template-columns:320px 1fr;gap:16px}
+  
+  .player {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 20px;
+}
+
+.player-top {
+  grid-row: 1;
+}
+
+.tracks-grid {
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1024px) {
+  .tracks-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 680px) {
+  .tracks-grid {
+    grid-template-columns: 1fr;
+  }
+}
+  
+  
+  
   @media (max-width: 900px){.player{grid-template-columns:1fr}}
   .card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--br);padding:14px}
   .list{max-height:60vh;overflow:auto}
@@ -96,7 +127,7 @@ h1, .brand-title{ font-family: Orbitron, Inter, system-ui, sans-serif; }
   <div class="mast-inner">
     <!-- Swap src with your real banner/logo (1200×300 or SVG). PNG/SVG both fine. -->
     <img class="brand-image" src="assets/aetherwave-banner.png" alt="AetherWave Studio">
-    <div class="brand-title">AetherWave — Global Playlist</div>
+    <!--<div class="brand-title">AetherWave — Global Playlist</div>-->
     <div class="tagline">AI Music · Human Soul · Infinite Sound</div>
   </div>
 </div>
@@ -113,30 +144,33 @@ h1, .brand-title{ font-family: Orbitron, Inter, system-ui, sans-serif; }
 
   <div class="wrap">
     <div class="player">
-      <div class="card"><div class="list" id="list"></div></div>
-      <div class="card">
-        <div class="controls">
-          <div class="row">
-            <button id="prev">⏮</button>
-            <button id="play">▶️</button>
-            <button id="next">⏭</button>
-            <button id="shuffle" class="ghost">Shuffle</button>
-            <button id="repeat" class="ghost">Repeat: Off</button>
-            <button id="share" class="ghost">Share</button>
-          </div>
-          <div class="seek">
-            <span class="time" id="cur">0:00</span>
-            <input id="seek" type="range" min="0" max="1000" value="0" step="1"/>
-            <span class="time" id="dur">0:00</span>
-          </div>
-          <div class="row">
-            <label style="font-size:12px;color:var(--muted)">Vol</label>
-            <input id="vol" type="range" min="0" max="1" step="0.01"/>
-          </div>
-        </div>
-        <audio id="audio"></audio>
+  <!-- Player controls on top -->
+  <div class="card player-top">
+    <div class="controls">
+      <div class="row">
+        <button id="prev">⏮</button>
+        <button id="play">▶️</button>
+        <button id="next">⏭</button>
+        <button id="shuffle" class="ghost">Shuffle</button>
+        <button id="repeat" class="ghost">Repeat: Off</button>
+        <button id="share" class="ghost">Share</button>
+      </div>
+      <div class="seek">
+        <span class="time" id="cur">0:00</span>
+        <input id="seek" type="range" min="0" max="1000" value="0" step="1"/>
+        <span class="time" id="dur">0:00</span>
+      </div>
+      <div class="row">
+        <label style="font-size:12px;color:var(--muted)">Vol</label>
+        <input id="vol" type="range" min="0" max="1" step="0.01"/>
       </div>
     </div>
+    <audio id="audio"></audio>
+  </div>
+
+  <!-- Tracks grid below -->
+  <div class="tracks-grid" id="list"></div>
+</div>
   </div>
 
   <div id="admin" class="admin" role="dialog" aria-label="Admin">
@@ -193,8 +227,30 @@ h1, .brand-title{ font-family: Orbitron, Inter, system-ui, sans-serif; }
   if (new URLSearchParams(location.search).get('admin')==='1') admin.classList.add('show');
 
   // helpers
-  function setSrc(t){ if(!t) return; audio.src = t.url; audio.play().catch(()=>{}); btnPlay.textContent='⏸'; }
-
+  async function tryAutoplay() {
+  try {
+    await audio.play();
+    btnPlay.textContent = '⏸';
+  } catch (e) {
+    // Browser blocked autoplay — start on first user gesture
+    const unlock = async () => {
+      try { await audio.play(); btnPlay.textContent = '⏸'; }
+      finally {
+        window.removeEventListener('pointerdown', unlock);
+        window.removeEventListener('keydown', unlock);
+      }
+    };
+    window.addEventListener('pointerdown', unlock, { once: true });
+    window.addEventListener('keydown', unlock, { once: true });
+  }
+}
+  //function setSrc(t){ if(!t) return; audio.src = t.url; audio.play().catch(()=>{}); btnPlay.textContent='⏸'; }
+function setSrc(t){
+  if(!t) return;
+  audio.src = t.url;
+  tryAutoplay();  // instead of audio.play().catch(()=>{})
+  btnPlay.textContent = '⏸';
+}
   function render(){
     listEl.innerHTML='';
     tracks.forEach((t,i)=>{
