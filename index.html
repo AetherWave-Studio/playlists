@@ -239,5 +239,20 @@
   })();
 })();
 </script>
+<script>
+  // Load playlist.json fresh each time
+  fetch('playlist.json?v=' + Date.now())
+    .then(r => r.json())
+    .then(data => {
+      console.log("Loaded playlist:", data);
+      // TODO: replace this with your real render function
+      // Example: renderTracks(data.tracks);
+    })
+    .catch(err => {
+      console.error("Error loading playlist.json", err);
+    });
+</script>
+
+  
 </body>
 </html>
