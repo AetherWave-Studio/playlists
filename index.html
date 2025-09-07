@@ -111,6 +111,10 @@
     }
     #seek::-webkit-slider-runnable-track,#vol::-webkit-slider-runnable-track{height:6px;border-radius:999px;background:transparent}
     #seek::-moz-range-track,#vol::-moz-range-track{height:6px;border-radius:999px;background:transparent}
+
+    /* Hide Admin button by default; show in admin mode */
+    #btnAdmin { display: none; }
+    body.admin-mode #btnAdmin { display: inline-block; }
   </style>
 </head>
 <body>
@@ -118,9 +122,9 @@
   <div class="masthead">
     <div class="mast-inner">
       <a href="https://aetherwavestudio.com" class="mast-inner" style="text-decoration:none; color:inherit;">
-  <img class="brand-image" src="assets/aetherwave-banner.png" alt="AetherWave Studio">
-  <div class="tagline">AI Music · Human Soul · Infinite Sound</div>
-</a>
+        <img class="brand-image" src="assets/aetherwave-banner.png" alt="AetherWave Studio">
+        <div class="tagline">AI Music · Human Soul · Infinite Sound</div>
+      </a>
     </div>
   </div>
 
@@ -194,12 +198,43 @@
 
     let tracks=[]; let idx=-1; let shuffle=false; let repeat=0;
 
+    // --- Admin mode detection & UI gating ---
+    const params = new URLSearchParams(location.search);
+    const isAdmin = params.get('admin') === '1';
+    if (isAdmin) {
+      admin.classList.add('show');
+      document.body.classList.add('admin-mode'); // reveal #btnAdmin via CSS
+    }
+
+    // Preserve ?admin=1 on internal links (same-origin or relative)
+    if (isAdmin) {
+      const origin = location.origin;
+      document.addEventListener('DOMContentLoaded', () => {
+        const links = document.querySelectorAll('a[href]');
+        links.forEach(a => {
+          const href = a.getAttribute('href');
+          if (!href) return;
+          // Skip non-http(s) schemes
+          if (/^(mailto:|tel:|javascript:|#)/i.test(href)) return;
+
+          // Determine if internal (relative or same-origin)
+          let url;
+          try { url = new URL(href, location.href); } catch { return; }
+          if (url.origin !== origin) return; // external → do nothing
+
+          if (!url.searchParams.has('admin')) {
+            url.searchParams.set('admin','1');
+            a.setAttribute('href', url.toString());
+          }
+        });
+      });
+    }
+
     // restore settings
     vol.value = ls('awp:vol') || 0.9; audio.volume = parseFloat(vol.value);
     shuffle = ls('awp:shuffle')==='1'; btnShuffle.classList.toggle('active', shuffle);
     repeat = parseInt(ls('awp:repeat')||'0',10); btnRepeat.textContent = ['Repeat: Off','Repeat: All','Repeat: One'][repeat];
     remoteUrl.value = ls('awp:remotePlaylist') || '';
-    if (new URLSearchParams(location.search).get('admin')==='1') admin.classList.add('show');
 
     // autoplay helper (gesture unlock if blocked)
     async function tryAutoplay(){
@@ -237,6 +272,7 @@
     btnShare.addEventListener('click',()=>{
       if(idx<0) return; const t=tracks[idx]; const u=new URL(location.href);
       u.searchParams.set('track', t.id||idx); u.searchParams.set('t', Math.floor(audio.currentTime));
+      if (isAdmin) u.searchParams.set('admin','1'); // preserve admin in share links
       navigator.clipboard.writeText(u.toString()); toast('Link copied');
     });
 
@@ -256,81 +292,6 @@
       const n = idx+1; if(n<tracks.length){ select(n); } else if(repeat===1){ select(0); } else { btnPlay.textContent='▶️'; }
     }
 
-    // Admin panel
+    // Admin panel toggler (button only visible in admin-mode)
     function toggleAdmin(force){ admin.classList.toggle('show', force!==undefined?force:!admin.classList.contains('show')); }
-    btnAdmin.addEventListener('click',()=>toggleAdmin());
-    document.addEventListener('keydown',(e)=>{ if(e.ctrlKey && e.key=='.'){ e.preventDefault(); toggleAdmin(); } });
-    btnSave.addEventListener('click',()=>{ if(remoteUrl.value){ ls('awp:remotePlaylist', remoteUrl.value); toast('Saved'); }});
-    btnClear.addEventListener('click',()=>{ localStorage.removeItem('awp:remotePlaylist'); toast('Cleared'); });
-    btnLoad.addEventListener('click',async()=>{ if(!remoteUrl.value) return; await loadPlaylistFromUrl(remoteUrl.value,true); });
-    showPrivate.addEventListener('change',()=>{ sessionStorage.setItem('awp:private', showPrivate.checked?'1':'0'); toast('Private '+(showPrivate.checked?'on':'off')); });
-
-    // slider fill helper
-    function updateSliderFill(el){
-      const min=parseFloat(el.min||0), max=parseFloat(el.max||100), val=parseFloat(el.value||0);
-      const pct=((val-min)/(max-min))*100;
-      el.style.background = `linear-gradient(to right, var(--aw-neon) ${pct}%, rgba(255,255,255,0.1) ${pct}%)`;
-    }
-
-    // loader with JSONP support + same-origin JSON
-    async function loadPlaylistFromUrl(url,andRender){
-      let u; try{ u=new URL(url,location.href);}catch{ toast('Bad URL'); return;}
-      if(sessionStorage.getItem('awp:private')==='1'){ u.searchParams.set('admin','1'); }
-      const isSameOrigin=u.origin===location.origin;
-      const hasCallback=u.searchParams.has('callback');
-
-      if(!isSameOrigin && hasCallback){ // JSONP
-        await new Promise((resolve,reject)=>{
-          const cb='awp_cb_'+Math.random().toString(36).slice(2);
-          u.searchParams.set('callback',cb);
-          const s=document.createElement('script');
-          window[cb]=(data)=>{ try{ applyPlaylist(data); if(andRender){render(); selectInitial();} toast('Playlist loaded'); resolve();}
-                               catch(e){ reject(e);} finally{ delete window[cb]; s.remove(); } };
-          s.onerror=()=>{ delete window[cb]; s.remove(); toast('Failed to load playlist'); reject(new Error('JSONP failed')); };
-          s.src=u.toString(); document.head.appendChild(s);
-        });
-        return;
-      }
-
-      try{
-        const res=await fetch(u.toString());
-        const data=await res.json();
-        applyPlaylist(data);
-        if(andRender){ render(); selectInitial(); }
-        toast('Playlist loaded');
-      }catch(e){ console.error(e); toast('Fetch failed'); }
-    }
-
-    function applyPlaylist(data){
-      tracks = Array.isArray(data?.tracks)? data.tracks : [];
-      tracks = tracks.map((t,i)=>({ id:t.id||String(i), title:t.title||'Untitled', artist:t.artist||'', url:t.url, cover:t.cover||'', duration:Number(t.duration||0) }))
-                     .filter(t=>!!t.url);
-    }
-
-    function selectInitial(){
-      const p=new URLSearchParams(location.search);
-      const tid=p.get('track'); const at=parseInt(p.get('t')||'0',10);
-      let i=0; if(tid){ i=tracks.findIndex(t=>(t.id||'')===tid); if(i<0) i=0; }
-      select(i); if(at>0 && audio.duration){ audio.currentTime=Math.min(at, audio.duration-1); }
-    }
-
-    // boot: use saved/URL playlist if present, else same-origin playlist.json
-    (async function(){
-      const q=new URLSearchParams(location.search);
-      const qUrl=q.get('playlist');
-      const saved=ls('awp:remotePlaylist');
-      if(qUrl){ remoteUrl.value=qUrl; }
-      else if(saved){ remoteUrl.value=saved; }
-
-      if(remoteUrl.value){ await loadPlaylistFromUrl(remoteUrl.value,true); }
-      else { await loadPlaylistFromUrl('playlist.json?v='+Date.now(), true); }
-
-      // init slider fills
-      updateSliderFill(seek); updateSliderFill(vol);
-    })();
-  })();
-  </script>
-</body>
-</html>
-
-
+    btnAdmin
