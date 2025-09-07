@@ -16,7 +16,7 @@
       "title": "Daydreams in the Endtimes",
       "artist": "HELENA",
       "url": "https://www.dropbox.com/scl/fi/fes1s8vqxm68p7pcqwy7a/Helena_Jansen_Band__Daydreams_in_the_End_Times-1.mp3?rlkey=gb1bxhgeukfdej01q0uch69uf&st=zx93371t&raw=1",
-      "cover": "https://www.dropbox.com/scl/fi/d1v7uqn7ey2ipcvb4btel/Helena-Erickson-Profile-Pic-no-wm.png?rlkey=zw8f70klto9reny2hc21kd97a&st=fbf8ghz4&raw=1",
+      "cover": "https://www.dropbox.com/scl/fi/ol6maa9rofpyfr2a8o3nt/beefb219-4595-4b66-8844-98f05e4aadb0_44137567.png.png?rlkey=oodwpdktxsqv1jzmoab12rat9&st=amzn890n&raw=1",
       "duration": 0,
       "visibility": "public",
       "status": "approved"
@@ -27,6 +27,21 @@
       "url": "https://www.dropbox.com/scl/fi/fsjn5yxs4zm06fvfu8rw4/Voltage-Kiss.mp3?rlkey=xe78mv3nfo5ynbglg14739p0k&st=2uupjobi&raw=1",
       "cover": "https://www.dropbox.com/scl/fi/q498kvaulr96mld5p78zq/voltage_kiss_card_front.png?rlkey=mtmo4lpxheeq7c0dghdbn7qse&st=x7rk3f6j&raw=1",
       "id": "voltage-kiss-voltage-kiss"
+    },
+	{
+      "title": "The Moon in Retrograde",
+      "artist": "HELENA",
+      "url": "https://www.dropbox.com/scl/fi/2uvaygysuq1p27c4d9q4x/The-Moon-in-Retrograde-1.mp3?rlkey=0od5xywkvkuzpl3p658l70saw&st=iudc9u0z&raw=1",
+      "cover": "https://www.dropbox.com/scl/fi/ol6maa9rofpyfr2a8o3nt/beefb219-4595-4b66-8844-98f05e4aadb0_44137567.png.png?rlkey=oodwpdktxsqv1jzmoab12rat9&st=amzn890n&raw=1",
+      "id": "helen-release-2"
+    },
+	{
+      "title": "One True Thing",
+      "artist": "The Clue",
+      "url": "https://www.dropbox.com/scl/fi/z9nils4zgff2qig9iiyfy/One-True-Thing.mp3?rlkey=frxk40wwoyeltxqwd7xmxnm61&st=9fhe3cn9&raw=1",
+      "cover": "https://www.dropbox.com/scl/fi/r9sljanwzjbl0qpjosd9k/TheClueProfile.jpg?rlkey=31lhjiyzr0u8u709lt1lyfw4q&st=zkswe3r5&raw=1",
+      "id": "helen-release-2"
     }
+	
   ]
 }
