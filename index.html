@@ -71,36 +71,25 @@
     .admin label{display:block;font-size:12px;color:var(--muted);margin:8px 0 4px}
     .admin .row{margin-top:8px}
 
-    /* Masthead with gradient; use the inline image for the banner (no full-bleed background) */
+    /* Ultra-tight Masthead with proportional banner cap */
     .masthead{
     position:relative;width:100%;min-height:80px;display:flex;align-items:center;justify-content:center;overflow:hidden;
     border-bottom:1px solid rgba(255,255,255,.10);
-    background-image: linear-gradient(180deg, rgba(10,10,18,.85), rgba(10,10,17,.90));
-    background-repeat:no-repeat;
-    background-position:center;
-    background-size:100% 100%;
+    background-image:
+    linear-gradient(180deg, rgba(10,10,18,.85), rgba(10,10,17,.90)),
+    url('assets/aetherwave-banner.png');
+    background-repeat:no-repeat,no-repeat;
+    background-position:center,center;
+    /* gradient fills box; banner image shown at fixed height, keeps aspect ratio */
+    background-size:100% 100%, auto 72px;
     }
     .mast-inner{position:relative;z-index:1;text-align:center;padding:2px 6px}
     .brand-image{display:block;margin:0 auto 2px;height:58px;filter:drop-shadow(0 6px 24px rgba(255,47,166,.18))}
     .brand-title{margin:0;font-size:clamp(18px,2.4vw,26px);letter-spacing:.6px;color:var(--aw-ink)}
     .tagline{margin-top:0;font-size:12px;color:#cfd3ff;opacity:.9;letter-spacing:.3px}
     @media (min-width:900px){
-    .masthead{min-height:96px;background-size:100% 100%}
+    .masthead{min-height:96px;background-size:100% 100%, auto 86px}
     .brand-image{height:72px}
-    }
-
-    /* fixed-size icon buttons to prevent reflow when icon toggles */
-    #prev, #play, #next {
-      width:44px;
-      height:44px;
-      min-width:44px;
-      padding:0;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      border-radius:10px;
-      font-size:18px;
-      line-height:1;
     }
 	/* Slim Top Nav */
 .topnav {
@@ -153,9 +142,10 @@
     /* Range sliders — base, centered thumbs, breathing, and JS-driven fill */
     input[type="range"]{ -webkit-appearance:none; appearance:none; width:100%; height:14px; border-radius:999px; background:linear-gradient(90deg, rgba(0,245,160,.25), rgba(0,245,160,.10)); border:1px solid rgba(255,255,255,.12); outline:none}
     input[type="range"]::-webkit-slider-runnable-track{height:6px}
-    input[type="range"]::-webkit-slider-thumb{ -webkit-appearance:none; appearance:none; width:14px; height:14px; border-radius:50%; background:radial-gradient(circle at 40% 40%,#fff 0 25%, var(--aw-neon) 26% 100%); border:1px solid rgba(255,255,255,.35); box-shadow:0 0 8px rgba(0,245,160,.55); cursor:pointer; margin-top:-4px }
-    input[type="range"]::-moz-range-track{height:6px;border-radius:999px;background:rgba(0,245,160,.15)}
-    input[type="range"]::-moz-range-thumb{width:14px;height:14px;border:none;border-radius:50%;background:radial-gradient(circle at 40% 40%,#fff 0 25%, var(--aw-neon) 26% 100%);box-shadow:0 0 8px rgba(0,245,160,.55);cursor:pointer}
+    input[type="range"]::-webkit-slider-thumb{ -webkit-appearance:none; appearance:none; width:0; height:0; background:transparent; border:0; box-shadow:none; cursor:pointer; }
+    input[type="range"]::-moz-range-thumb{ visibility: hidden; width:0; height:0; }
+    input[type="range"]::-ms-thumb{ width:0; height:0; background:transparent; border:0; }
+    input[type="range"]:focus { outline: none; }
 
     /* breathing while playing */
     .playing #seek,.playing #vol{animation:neonBreath 2.4s ease-in-out infinite;background:linear-gradient(90deg, rgba(0,245,160,.35), rgba(0,245,160,.15))}
@@ -248,7 +238,7 @@
 </div>
 <div class="seek">
 <span class="time" id="cur">0:00</span>
-<input id="seek" min="0" step="0.01" type="range" value="0"/>
+<input id="seek" max="1000" min="0" step="1" type="range" value="0"/>
 <span class="time" id="dur">0:00</span>
 </div>
 <div class="row">
@@ -383,29 +373,9 @@
     audio.addEventListener('pause',()=>document.body.classList.remove('playing'));
     audio.addEventListener('ended',()=>document.body.classList.remove('playing'));
 
-    // Configure seek slider to use seconds directly for precise tracking
-    seek.min = 0;
-    seek.step = 0.01;
-
-    audio.addEventListener('loadedmetadata', ()=>{
-      dur.textContent = fmt(audio.duration);
-      seek.max = audio.duration;
-      updateSliderFill(seek);
-    });
-
-    // user scrubs -> set audio.currentTime directly
-    seek.addEventListener('input', ()=>{
-      audio.currentTime = parseFloat(seek.value || 0);
-      cur.textContent = fmt(audio.currentTime);
-      updateSliderFill(seek);
-    });
-
-    // playback updates -> mirror currentTime into slider
-    audio.addEventListener('timeupdate', ()=>{
-      seek.value = audio.currentTime || 0;
-      cur.textContent = fmt(audio.currentTime);
-      updateSliderFill(seek);
-    });
+    seek.addEventListener('input',()=>{ if(audio.duration){ audio.currentTime=(seek.value/1000)*audio.duration; } updateSliderFill(seek); });
+    audio.addEventListener('timeupdate',()=>{ if(audio.duration){ seek.value=Math.floor((audio.currentTime/audio.duration)*1000); cur.textContent=fmt(audio.currentTime); updateSliderFill(seek);} });
+    audio.addEventListener('loadedmetadata',()=>{ dur.textContent=fmt(audio.duration); });
     audio.addEventListener('ended',()=>{ if(repeat===2){ audio.currentTime=0; audio.play(); return;} next(); });
     vol.addEventListener('input',()=>{ audio.volume=parseFloat(vol.value); ls('awp:vol', vol.value); updateSliderFill(vol); });
 
