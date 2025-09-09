@@ -181,9 +181,16 @@
     .then(html => {
       document.getElementById("nav-placeholder").innerHTML = html;
       const links = document.querySelectorAll(".aether-nav a");
+
       links.forEach(link => {
-        if (link.href === window.location.href) {
+        // Normalize current URL and link href
+        const current = window.location.href.replace(/\/index\.html?$/, '/');
+        const href = link.href.replace(/\/index\.html?$/, '/');
+
+        if (href === current) {
           link.classList.add("active");
+          // Prevent opening active page in new tab
+          link.removeAttribute("target");
         }
       });
     })
