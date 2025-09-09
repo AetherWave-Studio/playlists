@@ -175,27 +175,43 @@
 </div>
 </div>
 <div id="nav-placeholder"></div>
+<div id="nav-placeholder"></div>
 <script>
   fetch("nav.html")
     .then(r => r.text())
     .then(html => {
       document.getElementById("nav-placeholder").innerHTML = html;
+
       const links = document.querySelectorAll(".aether-nav a");
 
-      links.forEach(link => {
-        // Normalize current URL and link href
-        const current = window.location.href.replace(/\/index\.html?$/, '/');
-        const href = link.href.replace(/\/index\.html?$/, '/');
+      // Normalize to origin + pathname only (ignore query/hash; collapse /index.html)
+      const norm = url => {
+        const u = new URL(url, window.location.href);
+        const path = u.pathname.replace(/\/index\.html?$/i, "/");
+        return u.origin + path.replace(/\/+$/, "/");
+      };
 
-        if (href === current) {
+      const here = norm(window.location.href);
+
+      links.forEach(link => {
+        const dest = norm(link.href);
+
+        if (dest === here) {
           link.classList.add("active");
-          // Prevent opening active page in new tab
-          link.removeAttribute("target");
+          link.setAttribute("aria-current", "page");
+          link.removeAttribute("target");        // don't open new tab
+
+          // stop same-page reload
+          link.addEventListener("click", e => {
+            e.preventDefault();
+            e.stopPropagation();
+          }, { passive: false });
         }
       });
     })
     .catch(err => console.error("Nav load failed:", err));
 </script>
+
 
 <!-- Slim Navigation -->
 
