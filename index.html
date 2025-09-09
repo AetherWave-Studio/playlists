@@ -1,28 +1,26 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <!-- Standard Favicons -->
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48x48.png">
-  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
-
+<!-- Standard Favicons -->
+<link href="assets/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="assets/favicon.ico" rel="icon" type="image/x-icon"/>
 <!-- Web App Manifest -->
-  <link rel="manifest" href="assets/site.webmanifest">
-  <meta name="theme-color" content="#FF1493">
-
+<link href="assets/site.webmanifest" rel="manifest"/>
+<meta content="#FF1493" name="theme-color"/>
 <!-- Apple Touch Icon -->
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
-
-  <link rel="apple-touch-icon" href="assets/favicon-180.png">
-  <link rel="manifest" href="site.webmanifest">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="theme-color" content="#FF1493">
-  <title>AetherWave — Global Playlist Player</title>
-  <style>
+<link href="assets/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="assets/favicon-180.png" rel="apple-touch-icon"/>
+<link href="site.webmanifest" rel="manifest"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Orbitron:wght@600;800&amp;display=swap" rel="stylesheet"/>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#FF1493" name="theme-color"/>
+<title>AetherWave — Global Playlist Player</title>
+<style>
     :root{
       --bg:#0b0b12; --ink:#eef1ff; --muted:#bfc1d3; --accent:#ff2fa6; --accent2:#35d0ff; --panel:#141428; --br:16px;
       --aw-pink:#ff2fa6; --aw-neon:#00F5A0; --aw-ink:#eef1ff;
@@ -79,7 +77,7 @@
       border-bottom:1px solid rgba(255,255,255,.10);
       background-image:
         linear-gradient(180deg, rgba(10,10,18,.85), rgba(10,10,17,.90)),
-        url('assets/aetherwave-banner-1200x300.jpg');
+        url('assets/aetherwave-banner.png');
       background-repeat:no-repeat,no-repeat;
       background-position:center,center;
       /* gradient fills box; banner image shown at fixed height, keeps aspect ratio */
@@ -166,82 +164,85 @@
     #btnAdmin { display: none; }
     body.admin-mode #btnAdmin { display: inline-block; }
   </style>
-</head>
+</meta></head>
 <body>
+<div class="masthead">
+<div class="mast-inner">
+<a class="mast-inner" href="https://aetherwavestudio.com" style="text-decoration:none; color:inherit;">
+<img alt="AetherWave Studio" class="brand-image" src="assets/aetherwave-banner.png"/>
+<div class="tagline">AI Music · Human Soul · Infinite Sound</div>
+</a>
+</div>
+</div>
+<div id="nav-placeholder"></div>
+<script>
+  fetch("nav.html")
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById("nav-placeholder").innerHTML = html;
+      const links = document.querySelectorAll(".aether-nav a");
+      links.forEach(link => {
+        if (link.href === window.location.href) {
+          link.classList.add("active");
+        }
+      });
+    })
+    .catch(err => console.error("Nav load failed:", err));
+</script>
 
-  <div class="masthead">
-    <div class="mast-inner">
-      <a href="https://aetherwavestudio.com" class="mast-inner" style="text-decoration:none; color:inherit;">
-        <img class="brand-image" src="assets/aetherwave-banner.png" alt="AetherWave Studio">
-        <div class="tagline">AI Music · Human Soul · Infinite Sound</div>
-      </a>
-    </div>
-  </div>
 <!-- Slim Navigation -->
-<nav class="topnav">
-  <ul>
-    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfHYRDb7iRmNFIneGJNsEhQ1wpi5QQYbXKy9mwFUMP4htvOoQ/viewform?usp=header-" target="_blank">Submit Music</a></li>
-    <li><a href="https://featured-artist.aetherwavestudio.com" target="_blank">Featured Artist</a></li>
-    <li><a href="https://privacy.aetherwavestudio.com/" target="_blank">Privacy</a></li>
-  </ul>
-</nav>
 
-  <header>
-    <h1>AetherWave — Global Playlist</h1>
-    <div class="row">
-      <span id="count" class="badge">0 tracks</span>
-      <button id="btnAdmin" class="ghost" title="Open Admin (Ctrl+.)">Admin</button>
-    </div>
-  </header>
-
-  <div class="wrap">
-    <div class="player">
-      <!-- Player controls on top -->
-      <div class="card player-top">
-        <div class="controls">
-          <div class="row">
-            <button id="prev">⏮</button>
-            <button id="play">▶️</button>
-            <button id="next">⏭</button>
-            <button id="shuffle" class="ghost">Shuffle</button>
-            <button id="repeat" class="ghost">Repeat: Off</button>
-            <button id="share" class="ghost">Share</button>
-          </div>
-          <div class="seek">
-            <span class="time" id="cur">0:00</span>
-            <input id="seek" type="range" min="0" max="1000" value="0" step="1"/>
-            <span class="time" id="dur">0:00</span>
-          </div>
-          <div class="row">
-            <label style="font-size:12px;color:var(--muted)">Vol</label>
-            <input id="vol" type="range" min="0" max="1" step="0.01"/>
-          </div>
-        </div>
-        <audio id="audio"></audio>
-      </div>
-
-      <!-- Tracks grid below -->
-      <div class="tracks-grid" id="list"></div>
-    </div>
-  </div>
-
-  <!-- Admin -->
-  <div id="admin" class="admin" role="dialog" aria-label="Admin">
-    <strong>Admin</strong>
-    <label>Remote playlist URL</label>
-    <input id="remoteUrl" placeholder="https://.../playlist.json OR .../exec?route=playlist&callback=awp" style="width:100%;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:#0f0f1c;color:#fff"/>
-    <div class="row">
-      <button id="load">Load Remote</button>
-      <button id="save" class="ghost">Save as default</button>
-      <button id="clear" class="ghost">Clear</button>
-    </div>
-    <label><input type="checkbox" id="showPrivate"> Show private (adds &admin=1)</label>
-    <div class="fine" style="font-size:12px;color:var(--muted);margin-top:8px">Tip: If CORS blocks fetch, append <code>&callback=awp</code> for JSONP, or host <code>playlist.json</code> next to this file.</div>
-  </div>
-
-  <div id="toast" class="toast"></div>
-
-  <script>
+<header>
+<h1>AetherWave — Global Playlist</h1>
+<div class="row">
+<span class="badge" id="count">0 tracks</span>
+<button class="ghost" id="btnAdmin" title="Open Admin (Ctrl+.)">Admin</button>
+</div>
+</header>
+<div class="wrap">
+<div class="player">
+<!-- Player controls on top -->
+<div class="card player-top">
+<div class="controls">
+<div class="row">
+<button id="prev">⏮</button>
+<button id="play">▶️</button>
+<button id="next">⏭</button>
+<button class="ghost" id="shuffle">Shuffle</button>
+<button class="ghost" id="repeat">Repeat: Off</button>
+<button class="ghost" id="share">Share</button>
+</div>
+<div class="seek">
+<span class="time" id="cur">0:00</span>
+<input id="seek" max="1000" min="0" step="1" type="range" value="0"/>
+<span class="time" id="dur">0:00</span>
+</div>
+<div class="row">
+<label style="font-size:12px;color:var(--muted)">Vol</label>
+<input id="vol" max="1" min="0" step="0.01" type="range"/>
+</div>
+</div>
+<audio id="audio"></audio>
+</div>
+<!-- Tracks grid below -->
+<div class="tracks-grid" id="list"></div>
+</div>
+</div>
+<!-- Admin -->
+<div aria-label="Admin" class="admin" id="admin" role="dialog">
+<strong>Admin</strong>
+<label>Remote playlist URL</label>
+<input id="remoteUrl" placeholder="https://.../playlist.json OR .../exec?route=playlist&amp;callback=awp" style="width:100%;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:#0f0f1c;color:#fff"/>
+<div class="row">
+<button id="load">Load Remote</button>
+<button class="ghost" id="save">Save as default</button>
+<button class="ghost" id="clear">Clear</button>
+</div>
+<label><input id="showPrivate" type="checkbox"/> Show private (adds &amp;admin=1)</label>
+<div class="fine" style="font-size:12px;color:var(--muted);margin-top:8px">Tip: If CORS blocks fetch, append <code>&amp;callback=awp</code> for JSONP, or host <code>playlist.json</code> next to this file.</div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
   (function(){
     const ls = (k,v)=> (v===undefined? localStorage.getItem(k): (localStorage.setItem(k,v),v));
     const ss = (k,v)=> (v===undefined? sessionStorage.getItem(k): (sessionStorage.setItem(k,v),v));
