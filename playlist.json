@@ -1,57 +1,12 @@
 {
-  "title": "AetherWave Global Playlist",
   "tracks": [
     {
-      "id": "ghosts-online-you-didn-t-have-to-bring-him-wjmd",
-      "title": "You Didn't Have to Bring Him",
-      "artist": "Ghosts Online",
-      "url": "https://www.dropbox.com/scl/fi/vpiuxf56jpgs1ks4rx70p/Ghosts_Online__You_Didn-t_Need_to_Bring_Him.mp3?rlkey=bvsbpeqmcrwamtmmojfr101y2&st=i9mjeqhp&raw=1",
-      "cover": "https://www.dropbox.com/scl/fi/yr0sfud3t7jomku634vm5/ghost_gum_1x1_w_watermark.png?rlkey=pwnzlgdshsc4t5nmmf4orge8t&st=olq9lp4d&raw=1",
-      "duration": 0,
-      "visibility": "public",
-      "status": "approved"
-    },
-	  {
-      "id": "oceanbreath",
-      "title": "Deep Ocean Breath",
-      "artist": "Echo Chamber Collection",
-      "url": "https://www.dropbox.com/scl/fi/kek4rc11n6tvnlb7k6onz/Deep-Ocean-Breath.mp3?rlkey=z5z91qryiw30xynonm5myk39r&st=6vmorgbr&raw=1",
-      "cover": "https://www.dropbox.com/scl/fi/aaahzxjhti1xp4g33t0bp/Deep_Ocean_Breath_wm.png?rlkey=xkm9ioq84wjmpfyexpl193ghf&st=sam7ydxu&raw=1",
-      "duration": 0,
-      "visibility": "public",
-      "status": "approved"
-    },
-	  {
-      "id": "daydreams-wjmd",
-      "title": "Daydreams in the Endtimes",
-      "artist": "HELENA",
-      "url": "https://www.dropbox.com/scl/fi/fes1s8vqxm68p7pcqwy7a/Helena_Jansen_Band__Daydreams_in_the_End_Times-1.mp3?rlkey=gb1bxhgeukfdej01q0uch69uf&st=zx93371t&raw=1",
-      "cover": "https://www.dropbox.com/scl/fi/ol6maa9rofpyfr2a8o3nt/beefb219-4595-4b66-8844-98f05e4aadb0_44137567.png.png?rlkey=oodwpdktxsqv1jzmoab12rat9&st=amzn890n&raw=1",
-      "duration": 0,
-      "visibility": "public",
-      "status": "approved"
-    },
-    {
-      "title": "Voltage Kiss",
-      "artist": "Voltage Kiss",
-      "url": "https://www.dropbox.com/scl/fi/fsjn5yxs4zm06fvfu8rw4/Voltage-Kiss.mp3?rlkey=xe78mv3nfo5ynbglg14739p0k&st=2uupjobi&raw=1",
-      "cover": "https://www.dropbox.com/scl/fi/q498kvaulr96mld5p78zq/voltage_kiss_card_front.png?rlkey=mtmo4lpxheeq7c0dghdbn7qse&st=x7rk3f6j&raw=1",
-      "id": "voltage-kiss-voltage-kiss"
-    },
-	{
-      "title": "The Moon in Retrograde",
-      "artist": "HELENA",
-      "url": "https://www.dropbox.com/scl/fi/2uvaygysuq1p27c4d9q4x/The-Moon-in-Retrograde-1.mp3?rlkey=0od5xywkvkuzpl3p658l70saw&st=iudc9u0z&raw=1",
-      "cover": "https://www.dropbox.com/scl/fi/ol6maa9rofpyfr2a8o3nt/beefb219-4595-4b66-8844-98f05e4aadb0_44137567.png.png?rlkey=oodwpdktxsqv1jzmoab12rat9&st=amzn890n&raw=1",
-      "id": "helen-release-2"
-    },
-	{
-      "title": "One True Thing",
-      "artist": "The Clue",
-      "url": "https://www.dropbox.com/scl/fi/z9nils4zgff2qig9iiyfy/One-True-Thing.mp3?rlkey=frxk40wwoyeltxqwd7xmxnm61&st=9fhe3cn9&raw=1",
-      "cover": "https://www.dropbox.com/scl/fi/r9sljanwzjbl0qpjosd9k/TheClueProfile.jpg?rlkey=31lhjiyzr0u8u709lt1lyfw4q&st=zkswe3r5&raw=1",
-      "id": "theclue-release-1"
+      "id": "aetherwave-studio-ai-the-quest-to-be-accepted",
+      "title": "AI: The Quest to be Accepted",
+      "artist": "AetherWave Studio",
+      "url": "https://drive.google.com/open?id=1yHLgIHCRIZOdQ2mDHlrKFsdD5EXlw56I",
+      "cover": "https://drive.google.com/open?id=1jb_5Wu9r7hsiJ7oev2eRYywaW1ghCK6E",
+      "duration": null
     }
-	
   ]
 }
