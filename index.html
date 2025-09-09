@@ -42,7 +42,7 @@
     h1{margin:0;font-size:18px}
     .wrap{max-width:920px;margin:0 auto;padding:0 12px 28px}
 
-    /* Player layout */
+    /* Player layout: controls on top, grid of tracks below */
     .player{display:grid;grid-template-rows:auto 1fr;gap:20px}
     .player-top{grid-row:1}
     .tracks-grid{grid-row:2;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
@@ -59,15 +59,15 @@
     .title{font-weight:600}
     .artist,.dur{font-size:12px;color:var(--muted)}
     .controls{display:grid;grid-template-columns:1fr;gap:10px}
-    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap} /* allow wrap so nothing disappears */
     button{padding:8px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:linear-gradient(180deg,rgba(255,47,166,.25),rgba(53,208,255,.15));color:#fff;cursor:pointer}
-    button.ghost{background:#0f0f1c;min-width:96px}
+    button.ghost{background:#0f0f1c;min-width:96px} /* prevent pill collapse */
 
     .seek{display:flex;align-items:center;gap:8px}
     .time{font-size:12px;color:var(--muted);width:64px;text-align:center}
 
     .badge{padding:4px 8px;border-radius:999px;background:#0f0f1c;border:1px solid rgba(255,255,255,.15);font-size:12px;color:var(--muted)}
-    .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#0f0f1c;border:1px solid rgba(255,255,255,.15);padding:10px 12px;border-radius:12px;font-size:13px;color:#muted;display:none}
+    .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#0f0f1c;border:1px solid rgba(255,255,255,.15);padding:10px 12px;border-radius:12px;font-size:13px;color:var(--muted);display:none}
 
     /* Admin panel */
     .admin{position:fixed;inset:auto 12px 12px auto;max-width:380px;background:var(--panel);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:12px;box-shadow:0 10px 30px rgba(0,0,0,.4);display:none}
@@ -95,23 +95,26 @@
       .brand-image{height:72px}
     }
 
-    /* Range sliders — single neon bar + centered thumb */
+    /* Neon animations */
+    @keyframes neonBreath{
+      0%,100%{box-shadow:0 0 8px rgba(0,245,160,.55),0 0 16px rgba(0,245,160,.35)}
+      50%{box-shadow:0 0 16px rgba(0,245,160,.85),0 0 28px rgba(0,245,160,.55)}
+    }
+
+    /* Range sliders — single neon bar + centered thumb + glow */
     input[type="range"]{
       -webkit-appearance:none; appearance:none;
-      display:block;             /* avoid inline line-height quirks */
-      line-height:0;             /* prevent vertical nudge in some engines */
       width:100%; height:14px; border-radius:999px;
-      background:transparent;    /* JS paints gradient */
+      background:linear-gradient(90deg, rgba(0,245,160,.25), rgba(0,245,160,.10)); /* base tint */
       border:1px solid rgba(255,255,255,.12);
       outline:none;
-      padding:0 7px;             /* half thumb width to center at ends */
+      padding:0 7px; /* half thumb width to center at ends */
     }
-    /* Hide native tracks so only JS-painted bar is visible */
-    input[type="range"]::-webkit-slider-runnable-track{
-      height:6px;
-      background:transparent !important;
-      border:none !important;
-    }
+    /* hide native tracks so only our background (and JS fill) shows */
+    input[type="range"]::-webkit-slider-runnable-track{height:6px;background:transparent!important;border:none!important}
+    input[type="range"]::-moz-range-track{height:6px;background:transparent!important;border:none!important}
+
+    /* thumb (aka “ball”) */
     input[type="range"]::-webkit-slider-thumb{
       -webkit-appearance:none; appearance:none;
       width:14px; height:14px; border-radius:50%;
@@ -120,29 +123,33 @@
       box-shadow:0 0 8px rgba(0,245,160,.55);
       cursor:pointer;
       margin-top:-4px; /* (thumb - track)/2 = (14-6)/2 */
-    }
-    input[type="range"]::-moz-range-track{
-      height:6px;
-      background:transparent !important;
-      border:none !important;
+      transition:opacity .2s ease;
     }
     input[type="range"]::-moz-range-thumb{
       width:14px;height:14px;border:none;border-radius:50%;
       background:radial-gradient(circle at 40% 40%,#fff 0 25%, var(--aw-neon) 26% 100%);
-      box-shadow:0 0 8px rgba(0,245,160,.55);cursor:pointer
+      box-shadow:0 0 8px rgba(0,245,160,.55);cursor:pointer;transition:opacity .2s ease
     }
 
-    /* breathing while playing */
-    .playing #seek,.playing #vol{animation:neonBreath 2.4s ease-in-out infinite}
+    /* breathing glow while playing (stronger, enforced) */
+    .playing #seek,.playing #vol{
+      animation:neonBreath 2.4s ease-in-out infinite;
+      box-shadow:0 0 10px rgba(0,245,160,.65),0 0 24px rgba(0,245,160,.45);
+    }
 
-    /* initial neutral background; JS overwrites with exact fill */
+    /* JS will overwrite background to paint exact fill; start neutral */
     #seek,#vol{
       background:linear-gradient(to right,
         rgba(255,255,255,0.10) 0%,
         rgba(255,255,255,0.10) 100%);
     }
 
-    /* Hide Admin button by default */
+    /* Optional: THUMBLESS mode — hide the knobs but keep drag via track */
+    body.thumbless input[type="range"]{ padding:0 } /* no end padding if no thumb */
+    body.thumbless input[type="range"]::-webkit-slider-thumb{ opacity:0; width:0; height:0; margin-top:0; box-shadow:none; border:none }
+    body.thumbless input[type="range"]::-moz-range-thumb{ opacity:0; width:0; height:0; box-shadow:none; border:none }
+
+    /* Hide Admin button by default; show in admin mode */
     #btnAdmin { display: none; }
     body.admin-mode #btnAdmin { display: inline-block; }
   </style>
@@ -165,23 +172,18 @@
       .then(html => {
         document.getElementById("nav-placeholder").innerHTML = html;
         const links = document.querySelectorAll(".aether-nav a");
-
-        // Normalize to origin + pathname only (ignore query/hash; collapse /index.html)
         const norm = url => {
           const u = new URL(url, window.location.href);
           const path = u.pathname.replace(/\/index\.html?$/i, "/");
           return u.origin + path.replace(/\/+$/, "/");
         };
-
         const here = norm(window.location.href);
-
         links.forEach(link => {
           const dest = norm(link.href);
           if (dest === here) {
             link.classList.add("active");
             link.setAttribute("aria-current", "page");
-            link.removeAttribute("target"); // don't open new tab
-            // stop same-page reload
+            link.removeAttribute("target");
             link.addEventListener("click", e => { e.preventDefault(); e.stopPropagation(); }, { passive: false });
           }
         });
@@ -249,8 +251,11 @@
 
   <script>
     (function(){
+      /* === OPTION: hide the “balls” === */
+      const THUMBLESS = false; // <-- set true to remove thumbs
+      if (THUMBLESS) document.body.classList.add('thumbless');
+
       const ls = (k,v)=> (v===undefined? localStorage.getItem(k): (localStorage.setItem(k,v),v));
-      const ss = (k,v)=> (v===undefined? sessionStorage.getItem(k): (sessionStorage.setItem(k,v),v));
       const $ = id=>document.getElementById(id);
       const fmt = s=>{s=Math.floor(s||0);const m=Math.floor(s/60),sec=('0'+(s%60)).slice(-2);return m+':'+sec};
 
@@ -262,15 +267,11 @@
 
       let tracks=[]; let idx=-1; let shuffle=false;
 
-      // --- Admin mode detection & UI gating ---
+      // Admin mode
       const params = new URLSearchParams(location.search);
       const isAdmin = params.get('admin') === '1';
-      if (isAdmin) {
-        admin.classList.add('show');
-        document.body.classList.add('admin-mode'); // reveal #btnAdmin via CSS
-      }
+      if (isAdmin) { admin.classList.add('show'); document.body.classList.add('admin-mode'); }
 
-      // Preserve ?admin=1 on internal links (same-origin or relative)
       if (isAdmin) {
         const origin = location.origin;
         document.addEventListener('DOMContentLoaded', () => {
@@ -289,15 +290,13 @@
         });
       }
 
-      // restore settings
+      // restore
       vol.value = ls('awp:vol') || 0.9; audio.volume = parseFloat(vol.value);
       shuffle = ls('awp:shuffle')==='1'; btnShuffle.classList.toggle('active', shuffle);
 
-      // Robust repeat state
       function getStoredRepeat(){
-        const raw = ls('awp:repeat');
-        const n = parseInt(raw, 10);
-        return Number.isFinite(n) && [0,1,2].includes(n) ? n : 0;
+        const n = parseInt(ls('awp:repeat')||'0', 10);
+        return [0,1,2].includes(n) ? n : 0;
       }
       let repeat = getStoredRepeat();
       function setRepeat(val){
@@ -309,7 +308,7 @@
 
       remoteUrl.value = ls('awp:remotePlaylist') || '';
 
-      // autoplay helper (gesture unlock if blocked)
+      // autoplay helper
       async function tryAutoplay(){
         try{ await audio.play(); btnPlay.textContent='⏸'; }
         catch(e){
@@ -365,18 +364,18 @@
         const n = idx+1; if(n<tracks.length){ select(n); } else if(repeat===1){ select(0); } else { btnPlay.textContent='▶️'; }
       }
 
-      // slider fill helper — pixel-accurate under the thumb center
+      // slider fill helper — preserves glow and works with/without thumb
       function updateSliderFill(el){
-        const THUMB = 14; // keep in sync with CSS
+        const THUMB = document.body.classList.contains('thumbless') ? 0 : 14;
         const min = parseFloat(el.min || 0);
         const max = parseFloat(el.max || 100);
         const val = parseFloat(el.value || 0);
-
         const pct = (val - min) / (max - min); // 0..1
-        const w = el.clientWidth;              // includes our 7px padding both sides
-        const trackW = Math.max(0, w - THUMB); // drawable distance between thumb centers
+        const w = el.clientWidth;
+        const trackW = Math.max(0, w - THUMB);
         const fillPx = Math.round((THUMB/2) + pct * trackW);
 
+        // Paint the bar (inline) but DO NOT touch box-shadow (so breathing glow stays)
         el.style.background = `
           linear-gradient(to right,
             var(--aw-neon) 0 ${fillPx}px,
@@ -385,7 +384,7 @@
       }
       window.addEventListener('resize', ()=>{ updateSliderFill(seek); updateSliderFill(vol); });
 
-      // loader with JSONP support + same-origin JSON
+      // loader + JSONP
       async function loadPlaylistFromUrl(url,andRender){
         let u; try{ u=new URL(url,location.href);}catch{ toast('Bad URL'); return;}
         if(sessionStorage.getItem('awp:private')==='1'){ u.searchParams.set('admin','1'); }
@@ -427,7 +426,7 @@
         select(i); if(at>0 && audio.duration){ audio.currentTime=Math.min(at, audio.duration-1); }
       }
 
-      // boot: use saved/URL playlist if present, else same-origin playlist.json
+      // boot
       (async function(){
         const q=new URLSearchParams(location.search);
         const qUrl=q.get('playlist');
@@ -438,7 +437,6 @@
         if(remoteUrl.value){ await loadPlaylistFromUrl(remoteUrl.value,true); }
         else { await loadPlaylistFromUrl('playlist.json?v='+Date.now(), true); }
 
-        // init slider fills
         updateSliderFill(seek); updateSliderFill(vol);
       })();
     })();
