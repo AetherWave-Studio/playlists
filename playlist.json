@@ -9,14 +9,6 @@
       "duration": null
     },
     {
-      "id": "gumbyburger-sunset-ride",
-      "title": "Sunset Ride",
-      "artist": "Serpant's Bride",
-      "url": "https://www.dropbox.com/scl/fi/sbf56maw98g1g6vxlg43c/Sunset-Ride-Remastered-Clint-Elston.mp3?rlkey=4jntmuiapliee0vor8aysfqpa&st=dkxpna2z&raw=1",
-      "cover": "https://www.dropbox.com/scl/fi/03ss499htq1xh8geizogp/IMG_5445-Clint-Elston.JPG?rlkey=9o9eitxyjfu2v7jqmfi5smdgl&st=o2gu4goy&raw=1",
-      "duration": null
-    },
-    {
       "id": "aetherwave-studio-ai-the-quest-to-be-accepted",
       "title": "AI: The Quest to be Accepted",
       "artist": "AetherWave Studio",
@@ -46,6 +38,22 @@
       "artist": "HELENA",
       "url": "https://www.dropbox.com/scl/fi/fes1s8vqxm68p7pcqwy7a/Helena_Jansen_Band__Daydreams_in_the_End_Times-1.mp3?rlkey=gb1bxhgeukfdej01q0uch69uf&raw=1",
       "cover": "https://www.dropbox.com/scl/fi/rrhckmhxgphl0g3qgw7bl/Helena.png?rlkey=31e4xvygmdfu5g0mqrlay54yo&raw=1",
+      "duration": null
+    },
+    {
+      "id": "the-serpent-s-bride-sunset-ride",
+      "title": "Sunset Ride",
+      "artist": "The Serpent’s Bride",
+      "url": "https://drive.google.com/open?id=1RZkO94Yt__o5DmSBMrPuAMs8x8MRX5z_",
+      "cover": "https://drive.google.com/open?id=1-exYok6s9_U7wlyoltybhivWhpNAB10b",
+      "duration": null
+    },
+    {
+      "id": "elias-crowe-one-foot-standing",
+      "title": "One Foot Standing",
+      "artist": "Elias Crowe",
+      "url": "https://www.dropbox.com/scl/fi/jsxwghdz1kx66u1djw03e/One-Foot-Standing-Gord-Moman.mp3?rlkey=ne38fxzct5wyk41dudlq9jgbh&st=q74fe5lt&dl=0",
+      "cover": "https://www.dropbox.com/scl/fi/20hre9vx3ujt3fdnkvips/Elias-Crowe-Gord-Moman.png?rlkey=bkdqc5mcr446u5zd9g0iffup8&st=h4i4foqp&raw=1",
       "duration": null
     },
     {
