@@ -16,6 +16,8 @@
 <link href="site.webmanifest" rel="manifest"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Orbitron:wght@600;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://firebasestorage.googleapis.com/v0/b/aetherwave-playlists.firebasestorage.app/o/global-files%2Fnav.css?alt=media&token=139d1bd7-b9e1-48db-a2d2-fc3efb12addd" rel="stylesheet">
+<link href="https://firebasestorage.googleapis.com/v0/b/aetherwave-playlists.firebasestorage.app/o/global-files%2Ffooter.css?alt=media&token=4f8bebd7-80e6-4bd6-8910-08b844e467f9" rel="stylesheet">
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="#FF1493" name="theme-color"/>
@@ -33,7 +35,7 @@
     radial-gradient(700px 500px at -10% 110%,rgba(53,208,255,.10),transparent 40%),
     linear-gradient(180deg,#0a0a12,#0a0a11);
     }
-    header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px}
+    header { text-align: center; padding: 0px 0; }
     h1,.brand-title{font-family:Orbitron,Inter,system-ui,sans-serif}
     h1{margin:0;font-size:18px}
     .wrap{max-width:920px;margin:0 auto;padding:0 12px 28px}
@@ -91,32 +93,7 @@
     .masthead{min-height:96px;background-size:100% 100%, auto 86px}
     .brand-image{height:72px}
     }
-	/* Slim Top Nav */
-.topnav {
-  background: rgba(20,20,35,0.85);
-  border-bottom: 1px solid rgba(255,255,255,.08);
-  padding: 4px 20px;   /* tight vertical spacing */
-}
-.topnav ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  justify-content: flex-end; /* right aligned */
-  gap: 24px;
-}
-.topnav a {
-  font-family: Orbitron, Inter, sans-serif;
-  font-size: 13px;
-  letter-spacing: .8px;
-  color: var(--aw-ink);
-  text-decoration: none;
-  transition: color .2s, text-shadow .2s;
-}
-.topnav a:hover {
-  color: var(--aw-pink);
-  text-shadow: 0 0 6px rgba(255,47,166,.6);
-}
+
 
     /* Neon animations */
     @keyframes pinkPulse{
@@ -167,62 +144,41 @@
   </style>
 </meta></head>
 <body>
-<div class="masthead">
-<div class="mast-inner">
-<a class="mast-inner" href="https://aetherwavestudio.com" style="text-decoration:none; color:inherit;">
-<img alt="AetherWave Studio" class="brand-image" src="/assets/aetherwave-banner2.png"/>
-<div class="tagline">AI Music · Human Soul · Infinite Sound</div>
-</a>
-</div>
-</div>
-<div id="nav-placeholder"></div>
-<div id="nav-placeholder"></div>
-<script>
-  fetch("nav.html")
-    .then(r => r.text())
-    .then(html => {
-    document.getElementById("nav-placeholder").innerHTML = html;
+ <header>
+        <div class="black-bg">
+			<img src="https://firebasestorage.googleapis.com/v0/b/aetherwave-playlists.firebasestorage.app/o/global-assets%2Faetherwave-banner2.png?alt=media&token=df5b57be-ae79-4424-a752-017da3778852" alt="Coastal Pulse Banner" style="width: 100%; max-width: 800px; border-radius: 10px;">
+			<!--<p class="tagline">AI Music. Human Soul. Infinite Sound.</p>-->
+			<nav class="aether-nav">
+				<ul>
+					<li class="dropdown">
+						<a class="active" href="#">PLAYLISTS</a>
+						<div class="dropdown-content">
+							<a href="https://playlists.aetherwavestudio.com/coastal-pulse/" target="_blank">Coastal Pulse</a>
+							<a href="https://playlists.aetherwavestudio.com/other-playlist/" target="_blank">Other Playlist</a>
+							<a href="https://playlists.aetherwavestudio.com/" target="_blank">All Playlists</a>
+						</div>
+					</li>
+					<li><a href="https://player.aetherwavestudio.com/">Global Playlist</a></li>
+					<li><a href="https://featured-artist.aetherwavestudio.com/">Featured Artist</a></li>
+					<li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfHYRDb7iRmNFIneGJNsEhQ1wpi5QQYbXKy9mwFUMP4htvOoQ/viewform?usp=header" target="_blank">Submit Music</a></li>
+					<li><a href="https://theme-packs.aetherwavestudio.com/">Theme Collections</a></li>
+					<li><a href="https://aetherwavestudio.com/">Custom Music</a></li>
+				</ul>
+			</nav>
+		</div>
+    </header>
 
-    const links = document.querySelectorAll(".aether-nav a");
-
-    // Normalize to origin + pathname only (ignore query/hash; collapse /index.html)
-    const norm = url => {
-    const u = new URL(url, window.location.href);
-    const path = u.pathname.replace(/\/index\.html?$/i, "/");
-    return u.origin + path.replace(/\/+$/, "/");
-    };
-
-    const here = norm(window.location.href);
-
-    links.forEach(link => {
-    const dest = norm(link.href);
-
-    if (dest === here) {
-    link.classList.add("active");
-    link.setAttribute("aria-current", "page");
-    link.removeAttribute("target");    // don't open new tab
-
-    // stop same-page reload
-    link.addEventListener("click", e => {
-    e.preventDefault();
-    e.stopPropagation();
-    }, { passive: false });
-    }
-    });
-    })
-    .catch(err => console.error("Nav load failed:", err));
-</script>
 
 
 <!-- Slim Navigation -->
 
-<header>
+
 <h1>AI MUSIC ALLIANCE — MEMBERS ONLY</h1>
 <div class="row">
 <span class="badge" id="count">0 tracks</span>
 <button class="ghost" id="btnAdmin" title="Open Admin (Ctrl+.)">Admin</button>
 </div>
-</header>
+
 <div class="wrap">
 <div class="player">
 <!-- Player controls on top -->
