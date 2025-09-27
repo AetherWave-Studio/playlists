@@ -141,24 +141,25 @@
     /* Hide Admin button by default; show in admin mode */
     #btnAdmin { display: none; }
     body.admin-mode #btnAdmin { display: inline-block; }
+	
   </style>
 </meta></head>
 <body>
  <header>
-        <div class="black-bg">
+        <div class="black-bg" href="https://aetherwavestudio.com">
 			<img src="https://firebasestorage.googleapis.com/v0/b/aetherwave-playlists.firebasestorage.app/o/global-assets%2Faetherwave-banner2.png?alt=media&token=df5b57be-ae79-4424-a752-017da3778852" alt="Coastal Pulse Banner" style="width: 100%; max-width: 800px; border-radius: 10px;">
 			<!--<p class="tagline">AI Music. Human Soul. Infinite Sound.</p>-->
 			<nav class="aether-nav">
 				<ul>
 					<li class="dropdown">
-						<a class="active" href="#">PLAYLISTS</a>
+						<a href="https://playlists.aetherwavestudio.com">PLAYLISTS</a>
 						<div class="dropdown-content">
 							<a href="https://playlists.aetherwavestudio.com/coastal-pulse/" target="_blank">Coastal Pulse</a>
 							<a href="https://playlists.aetherwavestudio.com/other-playlist/" target="_blank">Other Playlist</a>
 							<a href="https://playlists.aetherwavestudio.com/" target="_blank">All Playlists</a>
 						</div>
 					</li>
-					<li><a href="https://player.aetherwavestudio.com/">Global Playlist</a></li>
+					<li><a class="active" href="#">AI MUSIC ALLIANCE</a></li>
 					<li><a href="https://featured-artist.aetherwavestudio.com/">Featured Artist</a></li>
 					<li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfHYRDb7iRmNFIneGJNsEhQ1wpi5QQYbXKy9mwFUMP4htvOoQ/viewform?usp=header" target="_blank">Submit Music</a></li>
 					<li><a href="https://theme-packs.aetherwavestudio.com/">Theme Collections</a></li>
@@ -168,21 +169,18 @@
 		</div>
     </header>
 
-
-
-<!-- Slim Navigation -->
-
-
-<h1>AI MUSIC ALLIANCE — MEMBERS ONLY</h1>
 <div class="row">
-<span class="badge" id="count">0 tracks</span>
+<!--<span class="badge" id="count">0 tracks</span>-->
 <button class="ghost" id="btnAdmin" title="Open Admin (Ctrl+.)">Admin</button>
 </div>
 
 <div class="wrap">
 <div class="player">
-<!-- Player controls on top -->
-<div class="card player-top">
+<!-- Player controls on top -->'
+
+<div class="card player-top" class="centered-text">
+<h1>AI MUSIC ALLIANCE — MEMBERS ONLY</h1>
+<span class="badge" id="count">0 tracks</span>
 <div class="controls">
 <div class="row">
 <button id="prev">⏮</button>
@@ -414,5 +412,11 @@
     })();
   })();
   </script>
+   <footer>
+        <div class="container">
+            &copy; 2025 Aetherwave Studio. All rights reserved. | <a href="https://privacy.aetherwavestudio.com/">Privacy Policy</a> | <a href="https://privacy.aetherwavestudio.com/">Terms of Service</a>
+            <br>Created by Andrew Froehlich, CEO & Founder Aetherwave Studio | <a href="https://www.facebook.com/groups/2142548066240224">AI MUSIC ALLIANCE</a>
+        </div>
+    </footer>
 </body>
 </html>
