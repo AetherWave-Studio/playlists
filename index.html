@@ -386,11 +386,13 @@
     }catch(e){ console.error(e); toast('Fetch failed'); }
     }
 
-    function applyPlaylist(data){
-    tracks = Array.isArray(data?.tracks)? data.tracks : [];
-    tracks = tracks.map((t,i)=>({ id:t.id||String(i), title:t.title||'Untitled', artist:t.artist||'', url:t.url, cover:t.cover||'', duration:Number(t.duration||0) }))
-    .filter(t=>!!t.url);
-    }
+   function applyPlaylist(data){
+  console.log('Received data:', data);
+  tracks = Array.isArray(data?.tracks)? data.tracks : [];
+  tracks = tracks.map((t,i)=>({ id:t.id||String(i), title:t.title||'Untitled', artist:t.artist||'', url:t.url, cover:t.cover||'', duration:Number(t.duration||0) }))
+  .filter(t=>!!t.url);
+  console.log('Processed tracks:', tracks);
+}
 
     function selectInitial(){
     const p=new URLSearchParams(location.search);
