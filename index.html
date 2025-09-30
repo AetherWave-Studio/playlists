@@ -181,7 +181,7 @@
 <!-- Player controls on top -->'
 
 		<div class="card player-top" class="centered-text">
-	<h1>AI MUSIC ALLIANCE — MEMBERS ONLY</h1>
+	<h1>DarkWave — Collection</h1>
 	<span class="badge" id="count">0 tracks</span>
 	<div class="controls">
 	<div class="row">
@@ -403,13 +403,13 @@
     }
 const btnUpdate = $('updatePlaylist');
 btnUpdate.addEventListener('click', async () => {
-  const playlistUrl = 'https://script.google.com/macros/s/AKfycbwmwrK-IECfGV0_OPkJfYPmbgseC7KBHw7ikP_Ds-ip6-34g9ilh5DkiWL0g-DR65ur/exec';
+  const playlistUrl = 'https://script.google.com/macros/s/AKfycbyCBYZT1YxrHrht554ju4-7m8hDHQyUPTYJCwJUmTZkla90qrdrMi9CFliOeRZpyEIJXw/exec;
   await loadPlaylistFromUrl(playlistUrl + '?t=' + Date.now(), true);
   toast('Playlist updated');
 });
     // boot: use web app URL for playlist
 (async function(){
-  const playlistUrl = 'https://script.google.com/macros/s/AKfycbwmwrK-IECfGV0_OPkJfYPmbgseC7KBHw7ikP_Ds-ip6-34g9ilh5DkiWL0g-DR65ur/exec';
+  const playlistUrl = 'https://script.google.com/macros/s/AKfycbyCBYZT1YxrHrht554ju4-7m8hDHQyUPTYJCwJUmTZkla90qrdrMi9CFliOeRZpyEIJXw/exec;
   await loadPlaylistFromUrl(playlistUrl + '?t=' + Date.now(), true);
   updateSliderFill(seek); updateSliderFill(vol);
 })();
