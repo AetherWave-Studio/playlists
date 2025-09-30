@@ -172,25 +172,26 @@
  
 
 <div class="row">
-<!--<span class="badge" id="count">0 tracks</span>-->
-<button class="ghost" id="btnAdmin" title="Open Admin (Ctrl+.)">Admin</button>
+	<!--<span class="badge" id="count">0 tracks</span>-->
+	<button class="ghost" id="btnAdmin" title="Open Admin (Ctrl+.)">Admin</button>
 </div>
 
 <div class="wrap">
-<div class="player">
+	<div class="player">
 <!-- Player controls on top -->'
 
-<div class="card player-top" class="centered-text">
-<h1>AI MUSIC ALLIANCE — MEMBERS ONLY</h1>
-<span class="badge" id="count">0 tracks</span>
-<div class="controls">
-<div class="row">
-<button id="prev">⏮</button>
-<button id="play">▶️</button>
-<button id="next">⏭</button>
-<button class="ghost" id="shuffle">Shuffle</button>
-<button class="ghost" id="repeat">Repeat: Off</button>
-<button class="ghost" id="share">Share</button>
+		<div class="card player-top" class="centered-text">
+	<h1>AI MUSIC ALLIANCE — MEMBERS ONLY</h1>
+	<span class="badge" id="count">0 tracks</span>
+	<div class="controls">
+	<div class="row">
+	<button id="prev">⏮</button>
+	<button id="play">▶️</button>
+	<button id="next">⏭</button>
+	<button class="ghost" id="shuffle">Shuffle</button>
+	<button class="ghost" id="repeat">Repeat: Off</button>
+	<button class="ghost" id="share">Share</button>
+	<button id="updatePlaylist" class="ghost">Update Playlist</button>
 </div>
 <div class="seek">
 <span class="time" id="cur">0:00</span>
@@ -397,14 +398,16 @@
     let i=0; if(tid){ i=tracks.findIndex(t=>(t.id||'')===tid); if(i<0) i=0; }
     select(i); if(at>0 && audio.duration){ audio.currentTime=Math.min(at, audio.duration-1); }
     }
-
+const btnUpdate = $('updatePlaylist');
+btnUpdate.addEventListener('click', async () => {
+  const playlistUrl = 'https://script.google.com/macros/s/YOUR_ID/exec';
+  await loadPlaylistFromUrl(playlistUrl + '?t=' + Date.now(), true);
+  toast('Playlist updated');
+});
     // boot: use web app URL for playlist
 (async function(){
-  const playlistUrl = 'https://script.google.com/macros/s/AKfycbwmwrK-IECfGV0_OPkJfYPmbgseC7KBHw7ikP_Ds-ip6-34g9ilh5DkiWL0g-DR65ur/exec';
+  const playlistUrl = 'https://script.google.com/macros/s/YOUR_ID/exec';
   await loadPlaylistFromUrl(playlistUrl + '?t=' + Date.now(), true);
-  setInterval(() => {
-    loadPlaylistFromUrl(playlistUrl + '?t=' + Date.now(), true);
-  }, 5 * 60 * 1000); // Poll every 5 minutes
   updateSliderFill(seek); updateSliderFill(vol);
 })();
   })();
