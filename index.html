@@ -358,8 +358,9 @@
     }
 
     // loader with JSONP support + same-origin JSON
-    async function loadPlaylistFromUrl(url,andRender){
-    let u; try{ u=new URL(url,location.href);}catch{ toast('Bad URL'); return;}
+    async function loadPlaylistFromUrl(url, andRender){
+  let u; try{ u=new URL(url, location.href); console.log('Fetching:', u.toString()); }
+  catch{ toast('Bad URL'); return; }
     if(sessionStorage.getItem('awp:private')==='1'){ u.searchParams.set('admin','1'); }
     const isSameOrigin=u.origin===location.origin;
     const hasCallback=u.searchParams.has('callback');
