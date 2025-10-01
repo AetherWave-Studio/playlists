@@ -401,13 +401,13 @@
     }
 const btnUpdate = $('updatePlaylist');
 btnUpdate.addEventListener('click', async () => {
-  const playlistUrl = 'https://script.google.com/macros/s/AKfycbwzgLFHM0tE4ugZ2EyTNn7BHCrUHY9dSbsMIHjMALlu0jckuLhu6_CsRjcMNKlDzwO9fg/exec';
+  const playlistUrl = 'https://script.google.com/macros/s/AKfycby91qVNA5PJ5DKb_sRipOdbFdhEu41BlI_qASIpQLyNHjpdbU-2zEZTRFS_t-k1jopM/exec';
   await loadPlaylistFromUrl(playlistUrl + '?t=' + Date.now(), true);
   toast('Playlist updated');
 });
     // boot: use web app URL for playlist
 (async function(){
-  const playlistUrl = 'https://script.google.com/macros/s/AKfycbwzgLFHM0tE4ugZ2EyTNn7BHCrUHY9dSbsMIHjMALlu0jckuLhu6_CsRjcMNKlDzwO9fg/exec';
+  const playlistUrl = 'https://script.google.com/macros/s/AKfycby91qVNA5PJ5DKb_sRipOdbFdhEu41BlI_qASIpQLyNHjpdbU-2zEZTRFS_t-k1jopM/exec';
   await loadPlaylistFromUrl(playlistUrl + '?t=' + Date.now(), true);
   updateSliderFill(seek); updateSliderFill(vol);
 })();
