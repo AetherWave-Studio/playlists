@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <!-- Standard Favicons -->
@@ -144,7 +143,8 @@
     body.admin-mode #btnAdmin { display: inline-block; }
 	
   </style>
-</meta></head>
+</meta>
+</head>
 <body>
 
 <header>
@@ -157,7 +157,7 @@
 						<div class="dropdown-content">
 							<a href="https://playlists.aetherwavestudio.com/darkwave/">Dark Wave</a>
 							<a href="https://playlists.aetherwavestudio.com/meditation/">Meditation</a>
-							<a href="#">Coastal Pulse</a>
+							<a href="#" class="active">Coastal Pulse</a>
 						</div>
 					</li>
 				
@@ -412,8 +412,8 @@ btnUpdate.addEventListener('click', async () => {
   const playlistUrl = 'https://script.google.com/macros/s/AKfycbz01cu93apsrNbPqLt8Rwo_MbmIaOR7FY2fBaV5aUrDbgK7LlwKWUvPqmhjZ9UXNXrb4Q/exec';
   await loadPlaylistFromUrl(playlistUrl + '?t=' + Date.now(), true);
   updateSliderFill(seek); updateSliderFill(vol);
-})
- </script>
+});
+</script>
    <footer>
         <div class="container">
             &copy; 2025 Aetherwave Studio. All rights reserved. | <a href="https://aetherwavestudio.com/privacy-policy/">Privacy Policy</a> | <a href="https://aetherwavestudio.com/privacy-policy/">Terms of Service</a>
