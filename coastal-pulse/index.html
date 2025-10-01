@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <!-- Standard Favicons -->
@@ -21,7 +22,7 @@
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="#FF1493" name="theme-color"/>
-<title>AetherWave — Coastal Pulse Playlist</title>
+<title>Coastal-Pulse Collection</title>
 <style>
     :root{
     --bg:#0b0b12; --ink:#eef1ff; --muted:#bfc1d3; --accent:#ff2fa6; --accent2:#35d0ff; --panel:#141428; --br:16px;
@@ -143,34 +144,31 @@
     body.admin-mode #btnAdmin { display: inline-block; }
 	
   </style>
- </meta>
-</head>
+</meta></head>
 <body>
-
 <header>
 		<div>
-			<a href="https://aetherwavestudio.com/"><img src="https://firebasestorage.googleapis.com/v0/b/aetherwave-playlists.firebasestorage.app/o/global-assets%2FAetherWave%20Banner%20pinwhite1920x192.png?alt=media&token=0f9154af-2d16-4a4f-8822-4c641355c377" alt="AetherWave-Banner" style="width: 100%; max-width: 1920px; border-radius: 10px;"></a>
+			<a href="https://aetherwavestudio.com/"><img src="https://firebasestorage.googleapis.com/v0/b/aetherwave-playlists.firebasestorage.app/o/global-assets%2FAetherWave%20Banner%20pinwhite1920x192.png?alt=media&token=0f9154af-2d16-4a4f-8822-4c641355c377" alt="Aetherwave-Banner" style="width: 100%; max-width: 1920px; border-radius: 10px;"></a>
 			<nav class="aether-nav">
 				<ul>
 					<li class="dropdown">
-						<a href="https://playlists.aetherwavestudio.com" class="active">Playlists</a>
+						<a href="https:playlists.aetherwavestudio.com" class="active">Playlists</a>
 						<div class="dropdown-content">
-							<a href="https://playlists.aetherwavestudio.com/darkwave/">Dark Wave</a>
+							<a href="https://playlists.aetherwavestudio.com/darkwave/" class="active">Dark Wave</a>
 							<a href="https://playlists.aetherwavestudio.com/meditation/">Meditation</a>
-							<a href="#" class="active">Coastal Pulse</a>
+							<a href="#" class="active">Coastal-Pulse</a>
 						</div>
 					</li>
 				
 					<li><a href="https://featured-artist.aetherwavestudio.com/">Featured Artist</a></li>
 					<li><a href="https://shop.aetherwavestudio.com/">Shop</a></li>
 					<li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfHYRDb7iRmNFIneGJNsEhQ1wpi5QQYbXKy9mwFUMP4htvOoQ/viewform?usp=header" target="_blank">Submit Music</a></li>
+					
 				</ul>
 			</nav>
 		</div>
 </header>
-
  
-
 <div class="row">
 	<!--<span class="badge" id="count">0 tracks</span>-->
 	<button class="ghost" id="btnAdmin" title="Open Admin (Ctrl+.)">Admin</button>
@@ -403,17 +401,18 @@
     }
 const btnUpdate = $('updatePlaylist');
 btnUpdate.addEventListener('click', async () => {
-  const playlistUrl = 'https://script.google.com/macros/s/AKfycbz01cu93apsrNbPqLt8Rwo_MbmIaOR7FY2fBaV5aUrDbgK7LlwKWUvPqmhjZ9UXNXrb4Q/exec';
+  const playlistUrl = 'https://script.google.com/macros/s/AKfycbwzgLFHM0tE4ugZ2EyTNn7BHCrUHY9dSbsMIHjMALlu0jckuLhu6_CsRjcMNKlDzwO9fg/exec';
   await loadPlaylistFromUrl(playlistUrl + '?t=' + Date.now(), true);
   toast('Playlist updated');
 });
     // boot: use web app URL for playlist
 (async function(){
-  const playlistUrl = 'https://script.google.com/macros/s/AKfycbz01cu93apsrNbPqLt8Rwo_MbmIaOR7FY2fBaV5aUrDbgK7LlwKWUvPqmhjZ9UXNXrb4Q/exec';
+  const playlistUrl = 'https://script.google.com/macros/s/AKfycbwzgLFHM0tE4ugZ2EyTNn7BHCrUHY9dSbsMIHjMALlu0jckuLhu6_CsRjcMNKlDzwO9fg/exec';
   await loadPlaylistFromUrl(playlistUrl + '?t=' + Date.now(), true);
   updateSliderFill(seek); updateSliderFill(vol);
-});
-</script>
+})();
+  })();
+  </script>
    <footer>
         <div class="container">
             &copy; 2025 Aetherwave Studio. All rights reserved. | <a href="https://aetherwavestudio.com/privacy-policy/">Privacy Policy</a> | <a href="https://aetherwavestudio.com/privacy-policy/">Terms of Service</a>
@@ -422,5 +421,3 @@ btnUpdate.addEventListener('click', async () => {
     </footer>
 </body>
 </html>
-
-
